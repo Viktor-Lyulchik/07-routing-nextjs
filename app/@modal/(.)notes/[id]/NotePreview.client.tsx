@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { fetchNoteById } from '@/lib/api';
@@ -8,6 +9,9 @@ import NotePreviewModal from '@/components/NotePreviewModal/NotePreviewModal';
 
 const NotePreviewClient = () => {
   const { id } = useParams<{ id: string }>();
+  const router = useRouter();
+
+  const close = () => router.back();
 
   const {
     data: note,
@@ -34,6 +38,9 @@ const NotePreviewClient = () => {
           <p className={css.date}>{note.createdAt}</p>
         </div>
       </div>
+      <button className={css.backBtn} onClick={close}>
+        Close
+      </button>
     </NotePreviewModal>
   );
 };
