@@ -16,7 +16,11 @@ import Modal from '@/components/Modal/Modal';
 import NoteForm from '@/components/NoteForm/NoteForm';
 import SearchBox from '@/components/SearchBox/SearchBox';
 
-export default function AppClient() {
+interface AppClientProps {
+  tag: string | undefined;
+}
+
+export default function AppClient({ tag }: AppClientProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [query, setQuery] = useState('');
@@ -36,8 +40,8 @@ export default function AppClient() {
   const closeModal = () => setIsModalOpen(false);
 
   const { data, isLoading, isError, isSuccess } = useQuery<NotesHttpResponse>({
-    queryKey: ['notes', { query: debouncedQuery, page: currentPage }],
-    queryFn: () => fetchNotes(debouncedQuery, currentPage),
+    queryKey: ['notes', { query: debouncedQuery, page: currentPage, tag }],
+    queryFn: () => fetchNotes(debouncedQuery, currentPage, tag),
     placeholderData: keepPreviousData,
     refetchOnMount: false,
   });
